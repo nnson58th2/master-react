@@ -4,6 +4,15 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 
+// Phương thức chạy 1 lần duy nhất
+// Và thường được implement 1 lần
+// Nhiệm vụ là render React Element lên DOM thật
+
+// ReactDOM.render control các container truyền vào
+// Nếu có bất kỳ sự thay đổi nào trong container
+// nó sẽ dùng thuật toán diffing so sánh
+// và cập nhập những element cần thiết vào DOM
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
