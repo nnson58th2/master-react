@@ -209,3 +209,42 @@ dispatch({ type: 'submit', payload: value })
 - Khi nào thì nên dùng. Khi chung ta có một state phức tạp hoặc khi mà cái state tiếp theo phụ thuộc vào state phía trước hoặc logic xử lý state ra khỏi component
 
 ---
+
+## 26. Sử dụng React Dev Tool để debug React app
+
+---
+
+## 27. Vấn đề global CSS của các SPA ngày nay
+
+---
+
+## 28. CSS, SCSS trong React
+
+- Install sass: yarn add node-sass or npm install node-sass --save
+
+---
+
+## 29. Atomic CSS trong React
+
+- Sử dụng tailwindcss
+- Install tailwindcss: npm install tailwindcss
+
+---
+
+## 30. CSS Module trong React
+
+---
+
+## 31. CSS in JS trong React
+
+- styled components: https://styled-components.com/
+
+```javascript
+#with npm
+npm install --save styled-components
+
+#with yarn
+yarn add styled-components
+```
+
+---
