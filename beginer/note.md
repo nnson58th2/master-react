@@ -248,3 +248,19 @@ yarn add styled-components
 ```
 
 ---
+
+## 32. Project Student Management: Tạo nhanh UI bằng bootstrap
+
+---
+
+## 34. Project Student Management: Thêm logic state
+
+---
+
+## 35. Project Student Management: Chia component Input và Student
+
+---
+
+## 36. Project Student Management: Thêm chức năng cập nhật và xóa student
+
+---
