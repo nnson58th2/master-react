@@ -253,14 +253,22 @@ yarn add styled-components
 
 ---
 
-## 34. Project Student Management: Thêm logic state
+## 33. Project Student Management: Thêm logic state
 
 ---
 
-## 35. Project Student Management: Chia component Input và Student
+## 34. Project Student Management: Chia component Input và Student
 
 ---
 
-## 36. Project Student Management: Thêm chức năng cập nhật và xóa student
+## 35. Project Student Management: Thêm chức năng cập nhật và xóa student
+
+---
+
+## 36. Project Validate Form: Tạo UI trang Register
+
+---
+
+## 37. Project Validate Form: Validate dễ dàng với React Hook Form
 
 ---
