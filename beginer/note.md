@@ -272,3 +272,68 @@ yarn add styled-components
 ## 37. Project Validate Form: Validate dễ dàng với React Hook Form
 
 ---
+
+## 38. Tạo Route cho các page
+
+- BrowserRouter
+- Route: path, component, children
+
+---
+
+## 39. Sự khác nhau giữa Link và NavLink
+
+- Link: dùng cho thẻ a thông thường để chuyển trang
+- NavLink: dùng cho những menu, navbar để có thêm active
+
+---
+
+## 40. Tìm hiểu Switch và exact trong React Router
+
+- Switch: render 1 lần với thằng match đầu tiên
+- exact: thêm exact vào page cha.
+
+```javascript
+/products (exact) => /products/:productId
+```
+
+---
+
+## 41. Redirect trong React Router
+
+- from
+- to
+
+---
+
+## 42. Nested Route trong React Router
+
+- Trong route có thêm route
+
+---
+
+## 43. Xử lý Page Not Found trong React Router
+
+---
+
+## 44. Tìm hiểu các React Router Hooks
+
+- useHistory:
+
+  - goBack
+  - goForward
+
+- useLocation:
+
+  - history.location: chỉ chạy lần đầu tiên và không tracking url
+  - location: chạy khi nó tracking url
+
+- useParams: get params truyền vào. Return 1 object
+- useRouteMatch: route truyền vào nó có match với url hay không. Return 1 object match
+
+---
+
+## 45. Xử lý query params với custom hook useQuery
+
+- useQuery
+
+---

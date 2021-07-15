@@ -1,12 +1,19 @@
 import React, { Fragment, useState } from 'react'
+import { Redirect } from 'react-router'
+
+import { path } from '../App'
 import Input from '../components/Input'
 import Student from '../components/Student'
+import useQuery from '../hooks/useQuery'
 
-export default function StudentManagement() {
+export default function StudentManagement({ isLogged }) {
   const [name, setName] = useState('')
   const [age, setAge] = useState('')
   const [students, setStudents] = useState([])
   const [currentStudent, setCurrentStudent] = useState(null)
+
+  const query = useQuery()
+  console.log('query: ', query)
 
   const handleAdd = () => {
     if (name !== '' && age !== '') {
@@ -65,6 +72,10 @@ export default function StudentManagement() {
       setStudents(_students)
       handleBack()
     }
+  }
+
+  if (!isLogged) {
+    return <Redirect to={path.register} />
   }
 
   return (
