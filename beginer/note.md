@@ -337,3 +337,130 @@ yarn add styled-components
 - useQuery
 
 ---
+
+## 46. Tại sao nên dùng Redux và cách Redux hoạt động
+
+- Giúp chúng ta quản lý state dễ dàng hơn
+- View -> Actions -> Reduce -> Store -> View
+
+---
+
+## 47. Cấu hình file reducer, store và Redux Dev Tools
+
+- react-redux
+- redux
+- window.**REDUX_DEVTOOLS_EXTENSION_COMPOSE**
+
+---
+
+## 48. Cấu hình types và actions. Dùng HOC connect để kết nối component với Redux (\*)
+
+connect
+
+- Ưu điểm: có memo, không cần dùng dispatch
+- Nhược điểm: tăng số lượng cay component
+
+```javascript
+import { connect } from 'react-redux'
+import { increase, decrease } from './counter.actions'
+
+const mapStateToProps = state => ({
+  count: state.counter.count
+})
+
+const mapDispatchToProps = {
+  increase,
+  decrease
+}
+
+// Currying (HOC)
+export default connect(mapStateToProps, mapDispatchToProps)(Counter)
+```
+
+---
+
+## 49. Dùng hook useSelector và useDispatch để connect component với Redux
+
+hook
+
+- Ưu điểm: nhanh
+- Nhược điểm: phải tự dispatch, không có memo
+
+---
+
+## 50. Middleware Redux với Redux Thunk (\*)
+
+---
+
+## 51. Dùng immer để mutate state an toàn trong React
+
+---
+
+## 52. Giới thiệu về Redux Toolkit
+
+- Redux Toolkit thực ra nó là 1 package gom nhiều package lại
+
+# Redux vs Redux Toolkit
+
+- Redux thường
+  - Bạn phải cài: redux, react-redux, redux-thunk, immer
+  - Tự setup Redux devtool
+- Redux toolkit
+
+  - Bạn phải cài: @reduxjs/toolkit, react-redux
+
+  - Redux Toolkit bao gồm: redux, redux-thunk, immer, reselect
+  - Redux toolkit tự setup Redux dev tool
+
+---
+
+## 53. Cấu hình store và reducer với Redux toolkit
+
+---
+
+## 54. Sử dụng createReducer và createAction
+
+---
+
+## 55. Mọi thứ bạn cần biết về createSlice và createAsyncThunk
+
+# Lưu ý khi dùng createAsyncThunk & createSlice
+
+createAsyncThunk
+
+- Nếu lỗi trả về không đúng định dạng SerializedError hoặc string thì sẽ bị xóa khỏi error. Vì thế trong trường hợp này thì sử dụng thunkAPI. rejectWithValue.
+
+```ts
+export interface SerializedError {
+  name?: string
+  message?: string
+  stack?: string
+  code?: string
+}
+```
+
+- Nếu gặp warning trên trình duyệt về serialized error thì custom lại middleware
+
+```js
+middleware: [
+  ...getDefaultMiddleware({
+    serializableCheck: false
+  })
+]
+```
+
+- Nếu bị pause do exception thì tắt bên tab Sources
+
+creaseSlice
+
+# 1. reducers: Là 1 object
+
+- Dùng khi muốn generate action từ slice
+
+# 2. extraReducers: Là 1 object hoặc builder callback
+
+- Dùng khi cần sử dụng builder callback
+- Dùng khi không muốn generate action (đã có action trước đó)
+- Dùng khi sử dụng createAsyncThunk
+
+---
