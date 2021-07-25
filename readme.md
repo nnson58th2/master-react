@@ -33,6 +33,10 @@ yarn add @material-ui/core @material-ui/lab @reduxjs/toolkit react-router-dom re
 3. Setup Redux và Router
 4. Code giao diện RegisterLayout
 5. Code giao diện Register Page
+6. Uncontrolled Component là gì
+7. Code validate Register Page
+8. Code Http class
+9. auth.slice
 
 ### Clone shopee trang đăng nhập
 
