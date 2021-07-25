@@ -12,8 +12,8 @@ export const Container = styled.div`
 `
 
 export const Banner = styled.div`
-  flex: 0 0 50%;
-  max-width: 50%;
+  flex: 0 0 60%;
+  max-width: 60%;
 
   background-image: url('https://cf.shopee.vn/file/5569eb9dc7e09e2dbed5315b8f2ea8ba');
   background-size: cover;
@@ -21,8 +21,8 @@ export const Banner = styled.div`
 `
 
 export const FormWrapper = styled.div`
-  flex: 0 0 50%;
-  max-width: 50%;
+  flex: 0 0 40%;
+  max-width: 40%;
   box-shadow: 0 3px 10px 0 rgb(0 0 0 / 14%);
   border-radius: 0%.4rem;
   background-color: #fff;
