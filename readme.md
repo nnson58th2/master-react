@@ -30,6 +30,10 @@ yarn add node-sass@5.0.0
 yarn add @material-ui/core @material-ui/lab @reduxjs/toolkit react-router-dom react-redux axios classnames date-fns dompurify lodash node-sass normalize.css prop-types query-string react-hook-form react-toastify styled-components
 ```
 
+3. Setup Redux và Router
+4. Code giao diện RegisterLayout
+5. Code giao diện Register Page
+
 ### Clone shopee trang đăng nhập
 
 ### Clone Shopee trang danh sách sản phẩm
