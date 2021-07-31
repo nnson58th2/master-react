@@ -1,5 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { unwrapResult } from '@reduxjs/toolkit'
 import { useForm, Controller } from 'react-hook-form'
 
 import InputPassword from 'src/components/InputPassword/InputPassword'
@@ -10,6 +12,7 @@ import { Button } from 'src/assets/styles/utils'
 import { rules } from 'src/constants/rules'
 import { path } from 'src/constants/path'
 
+import { register } from '../auth.slice'
 import * as S from './register.style'
 
 export default function Register() {
@@ -17,7 +20,8 @@ export default function Register() {
     control,
     handleSubmit,
     getValues,
-    formState: { errors }
+    formState: { errors },
+    setError
   } = useForm({
     defaultValues: {
       email: '',
@@ -26,8 +30,30 @@ export default function Register() {
     }
   })
 
-  const handleRegister = data => {
-    console.log(data)
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  const handleRegister = async data => {
+    const body = {
+      email: data.email,
+      password: data.password
+    }
+
+    try {
+      const response = await dispatch(register(body))
+
+      unwrapResult(response)
+      history.push(path.home)
+    } catch (error) {
+      if (error.status === 422) {
+        for (const key in error.data) {
+          setError(key, {
+            type: 'server',
+            message: error.data[key]
+          })
+        }
+      }
+    }
   }
 
   return (

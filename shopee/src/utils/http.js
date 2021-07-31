@@ -1,81 +1,32 @@
 import axios from 'axios'
+import LocalStorage from 'src/constants/localStorage'
 
-// axios({
-//   method: 'get',
-//   url: 'https://reqres.in/api/users?page=2'
-// })
-//   .then(res => {
-//     console.log('Thành công: ', res)
-//   })
-//   .catch(error => {
-//     console.log('Thất bại: ', error)
-//   })
-
-// axios
-//   .post(
-//     'https://reqres.in/api/users',
-//     {
-//       name: 'Nguyen Nhu Son'
-//     },
-//     {
-//       headers: {
-//         'Content-Type': 'application/json',
-//         token: 'e48321648713f'
-//       }
-//     }
-//   )
-//   .then(res => {
-//     console.log('Thành công: ', res)
-//   })
-//   .catch(error => {
-//     console.log('Thất bại: ', error)
-//   })
-
-// const instance = axios.create({
-//   baseURL: 'https://reqres.in/api/',
-//   timeout: 10000,
-//   headers: {
-//     'Content-Type': 'application/json',
-//     token: 'e48321648713f'
-//   }
-// })
-
-// instance
-//   .post('users', {
-//     name: 'Nguyen Nhu Son'
-//   })
-//   .then(res => {
-//     console.log('Thành công: ', res)
-//   })
-//   .catch(error => {
-//     console.log('Thất bại: ', error)
-//   })
-
+// Gọi getUser: cần token
+// Gọi product: không cần token
 class Http {
   constructor() {
     this.instance = axios.create({
-      baseURL: 'https://reqres.in/api/',
+      baseURL: process.env.REACT_APP_API,
       timeout: 10000,
       headers: {
-        'Content-Type': 'application/json',
-        token: 'e48321648713f'
+        'Content-Type': 'application/json'
       }
     })
 
     this.instance.interceptors.response.use(
-      responses => {
-        const result = { data: responses.data, status: responses.status }
+      response => {
+        const result = { ...response.data, status: response.status }
         return result
       },
-      ({ responses }) => {
-        const result = { data: responses.data, status: responses.status }
+      ({ response }) => {
+        const result = { ...response.data, status: response.status }
         return Promise.reject(result)
       }
     )
 
     this.instance.interceptors.request.use(
       config => {
-        const accessToken = localStorage.getItem('accessToken')
+        const accessToken = localStorage.getItem(LocalStorage.accessToken)
 
         if (accessToken) {
           config.headers.authorization = accessToken
@@ -86,17 +37,27 @@ class Http {
       error => Promise.reject(error.response)
     )
   }
+
+  get(url, config = null) {
+    return this.instance.get(url, config)
+  }
+
+  post(url, data, config = null) {
+    return this.instance.post(url, data, config)
+  }
+
+  put(url, data, config = null) {
+    return this.instance.put(url, data, config)
+  }
+
+  delete(url, data, config = null) {
+    return this.instance.delete(url, {
+      data,
+      ...config
+    })
+  }
 }
 
-const http = new Http().instance
+const http = new Http()
 
-http
-  .post('users', {
-    name: 'Nguyen Nhu Son'
-  })
-  .then(res => {
-    console.log('Thành công: ', res)
-  })
-  .catch(error => {
-    console.log('Thất bại: ', error)
-  })
+export default http
