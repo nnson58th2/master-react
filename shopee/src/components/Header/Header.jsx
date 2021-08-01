@@ -1,5 +1,13 @@
 import React from 'react'
+import Navbar from '../Navbar/Navbar'
+import * as S from './header.style'
 
 export default function Header() {
-  return <div>Header</div>
+  return (
+    <S.StyledHeader>
+      <div className="container">
+        <Navbar />
+      </div>
+    </S.StyledHeader>
+  )
 }

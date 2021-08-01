@@ -7,13 +7,16 @@ export const login = createAsyncThunk('auth/login', payloadCreator(authApi.login
 export const register = createAsyncThunk('auth/register', payloadCreator(authApi.register))
 
 const handleAuthFulfilled = (state, action) => {
-  state.profile = action.payload.data
+  const { user, access_token } = action.payload.data
+
+  state.profile = user
   localStorage.setItem(LocalStorage.user, JSON.stringify(state.profile))
+  localStorage.setItem(LocalStorage.accessToken, JSON.stringify(access_token))
 }
 
 const auth = createSlice({
   name: 'auth',
-  initialState: { profile: localStorage.getItem(LocalStorage.user) || {} },
+  initialState: { profile: JSON.parse(localStorage.getItem(LocalStorage.user)) || {} },
   extraReducers: {
     [login.fulfilled]: handleAuthFulfilled,
     [register.fulfilled]: handleAuthFulfilled

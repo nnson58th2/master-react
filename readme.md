@@ -1,4 +1,4 @@
-### Clone Shopee trang đăng ký
+### Clone Shopee trang đăng ký, đăng nhập
 
 1. Khởi tạo Project, Setup Prettier, ESLint, jsconfig
 2. Cài đặt một số package cần thiết. Setup CSS global và fonts.
@@ -36,8 +36,20 @@ yarn add @material-ui/core @material-ui/lab @reduxjs/toolkit react-router-dom re
 6. Uncontrolled Component là gì
 7. Code validate Register Page
 8. Code Http class
-9. auth.slice
-
-### Clone shopee trang đăng nhập
+9. Code auth.slice cho register, hoàn thiện apply API vào Register
+10. Cấu hình postman để test API
+11. Code UI trang Login
+12. Apply API cho trang Login
 
 ### Clone Shopee trang danh sách sản phẩm
+
+1. Code UI MainLayout
+2. Code UI Navbar, cập nhập login handleAuthFulfilled
+3. Tách Popver Component
+4. Code UI Header
+5. UnauthenticatedGuard
+6. Logout
+
+### Clone Shopee trang chi tiết sản phẩm
+
+### Clone Shopee trang giỏ hàng
