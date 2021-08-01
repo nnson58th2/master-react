@@ -1,5 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+
 import * as S from './HeaderRegister.style'
 
 export default function HeaderRegister({ title }) {
@@ -22,4 +24,8 @@ export default function HeaderRegister({ title }) {
       </S.Container>
     </S.Header>
   )
+}
+
+HeaderRegister.propTypes = {
+  title: PropTypes.string
 }

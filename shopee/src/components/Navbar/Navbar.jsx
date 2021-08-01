@@ -1,16 +1,18 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
+
 import { path } from 'src/constants/path'
 import { useAuthenticated } from 'src/hooks/useAuthenticated'
+import usePopover from 'src/hooks/usePopover'
+
+import Popover from '../Popover/Popover'
+
 import * as S from './navbar.style'
 
 export default function Navbar() {
   const authenticated = useAuthenticated()
   const profile = useSelector(state => state.auth.profile)
-  const [activePopover, setActivePopover] = useState(false)
-
-  const showPopover = () => setActivePopover(true)
-  const hidePopover = () => setActivePopover(false)
+  const { activePopover, showPopover, hidePopover } = usePopover()
 
   return (
     <S.Navbar>
@@ -20,16 +22,11 @@ export default function Navbar() {
             <S.User onMouseEnter={showPopover} onMouseLeave={hidePopover}>
               <S.UserImage src="https://avatars.githubusercontent.com/u/45548982?v=4" />
               <S.UserName>{profile.name || profile.email}</S.UserName>
-              {activePopover && (
-                <S.Drawer>
-                  <S.PopoverArrow />
-                  <S.PopoverContent>
-                    <S.UserLink to="">Tài khoản của tôi</S.UserLink>
-                    <S.UserLink to="">Đơn mua</S.UserLink>
-                    <S.UserButton>Đăng Xuất</S.UserButton>
-                  </S.PopoverContent>
-                </S.Drawer>
-              )}
+              <Popover active={activePopover}>
+                <S.UserLink to="">Tài khoản của tôi</S.UserLink>
+                <S.UserLink to="">Đơn mua</S.UserLink>
+                <S.UserButton>Đăng Xuất</S.UserButton>
+              </Popover>
             </S.User>
           </li>
         )}
