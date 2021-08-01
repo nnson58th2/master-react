@@ -36,7 +36,7 @@ export const Drawer = styled.div`
 export const PopoverArrow = styled.div`
   position: absolute;
   top: -10px;
-  right: 40px;
+  right: 8px;
 
   border-bottom: 10px solid rgb(255, 255, 255);
   border-left: 12px solid transparent;
