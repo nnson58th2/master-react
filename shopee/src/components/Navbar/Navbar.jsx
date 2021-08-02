@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { path } from 'src/constants/path'
 import { useAuthenticated } from 'src/hooks/useAuthenticated'
+import { logout } from 'src/pages/Auth/auth.slice'
 import usePopover from 'src/hooks/usePopover'
 
 import Popover from '../Popover/Popover'
@@ -14,6 +15,10 @@ export default function Navbar() {
   const profile = useSelector(state => state.auth.profile)
   const { activePopover, showPopover, hidePopover } = usePopover()
 
+  const dispatch = useDispatch()
+
+  const handleLogout = () => dispatch(logout())
+
   return (
     <S.Navbar>
       <S.NavMenu>
@@ -23,9 +28,9 @@ export default function Navbar() {
               <S.UserImage src="https://avatars.githubusercontent.com/u/45548982?v=4" />
               <S.UserName>{profile.name || profile.email}</S.UserName>
               <Popover active={activePopover}>
-                <S.UserLink to="">Tài khoản của tôi</S.UserLink>
+                <S.UserLink to={path.user}>Tài khoản của tôi</S.UserLink>
                 <S.UserLink to="">Đơn mua</S.UserLink>
-                <S.UserButton>Đăng Xuất</S.UserButton>
+                <S.UserButton onClick={handleLogout}>Đăng Xuất</S.UserButton>
               </Popover>
             </S.User>
           </li>
