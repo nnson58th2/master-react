@@ -26,7 +26,7 @@ export const SortByOptionsOption = styled.div`
   align-items: center;
   flex: 0 0 auto;
 
-  background: #fff;
+  background-color: #fff;
   border-radius: 2px;
   margin-left: 1rem;
   padding: 0 1.5rem;
@@ -35,13 +35,14 @@ export const SortByOptionsOption = styled.div`
   cursor: pointer;
 
   &.active {
-    background: #ee4d2d;
+    background-color: #ee4d2d;
     color: #fff;
   }
 `
 
 export const SortByPrice = styled.select`
   flex: 0 0 auto;
+  background-color: #fff;
   border: 0;
   margin-left: 1rem;
   padding: 0 1.5rem;

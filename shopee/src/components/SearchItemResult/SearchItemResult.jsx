@@ -18,7 +18,7 @@ export default function SearchItemResult() {
           <S.SortByOptionsOption>Bán chạy</S.SortByOptionsOption>
 
           <S.SortByPrice>
-            <option disable value="">
+            <option disabled value="">
               Giá
             </option>
             <option value="price:asc">Giá: Thấp đến cao</option>
