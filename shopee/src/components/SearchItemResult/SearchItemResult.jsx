@@ -115,7 +115,7 @@ export default function SearchItemResult({ filters, products }) {
           ))}
         </S.ProductList>
       )}
-      <Pagination />
+      <Pagination pagination={pagination} filters={filters} />
     </div>
   )
 }
