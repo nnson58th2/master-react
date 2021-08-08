@@ -48,7 +48,8 @@ export default function Home() {
       price_min: _filters.minPrice,
       price_max: _filters.maxPrice,
       sort_by: _filters.sortBy,
-      order: _filters.order
+      order: _filters.order,
+      name: _filters.name
     }
 
     const _getProducts = async () => {
