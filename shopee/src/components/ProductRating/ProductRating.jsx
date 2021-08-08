@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import * as S from './productRating.style'
 
-export default function ProductRating({ rating = 4.6 }) {
+export default function ProductRating({ rating }) {
   const handleWidth = index => {
     const indexRating = index + 1
 
