@@ -13,6 +13,12 @@ export const formatMoney = (value, character = '.') => String(value).replace(/\B
 export const generateNameId = ({ name, _id }) =>
   encodeURIComponent(`${name.replace(/\s/g, '-').replace(/%/g, '')}-i.${_id}`)
 
+export const getIdFromNameId = url => {
+  const array = url.split('-i.')
+
+  return array[array.length - 1]
+}
+
 export const isEmail = value =>
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
     value
@@ -27,3 +33,5 @@ export const payloadCreator = asyncFunc => async (arg, thunkAPI) => {
     return thunkAPI.rejectWithValue(error)
   }
 }
+
+export const rateSale = (original, sale) => Math.round(((original - sale) / original) * 100) + '%'

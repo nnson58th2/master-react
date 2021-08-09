@@ -2,16 +2,18 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { path } from './constants/path'
 
+import MainLayout from './layouts/MainLayout/MainLayout'
+import RegisterLayout from './layouts/RegisterLayout/RegisterLayout'
+
 import Home from './pages/Home/Home'
 import Login from './pages/Auth/Login/Login'
-import MainLayout from './layouts/MainLayout/MainLayout'
 import NotFound from './pages/NotFound/NotFound'
+import ProductDetail from './pages/ProductDetail/ProductDetail'
 import Register from './pages/Auth/Register/Register'
-import RegisterLayout from './layouts/RegisterLayout/RegisterLayout'
 import User from './pages/User/User'
 
-import UnauthenticatedGuard from './guards/UnauthenticatedGuard'
 import AuthenticatedGuard from './guards/AuthenticatedGuard'
+import UnauthenticatedGuard from './guards/UnauthenticatedGuard'
 
 export default function Routes() {
   return (
@@ -19,6 +21,12 @@ export default function Routes() {
       <Route path={path.home} exact>
         <MainLayout>
           <Home />
+        </MainLayout>
+      </Route>
+
+      <Route path={path.productDetail} exact>
+        <MainLayout>
+          <ProductDetail />
         </MainLayout>
       </Route>
 
