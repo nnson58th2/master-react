@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
@@ -13,14 +13,47 @@ import * as S from './productDetail.style'
 
 export default function ProductDetail() {
   const [product, setProduct] = useState()
+  const [currentImage, setCurrentImage] = useState({})
+  const [currentIndexImages, setCurrentIndexImages] = useState([0, 5])
+
   const { productId } = useParams()
+
   const dispatch = useDispatch()
+
+  const chooseCurrent = image => setCurrentImage(image)
+
+  const choosePrev = () => {
+    if (currentIndexImages[0] > 0) {
+      setCurrentIndexImages(currentIndexImages => [currentIndexImages[0] - 1, currentIndexImages[1] - 1])
+    }
+  }
+
+  const chooseNext = () => {
+    if (currentIndexImages[1] < product.images.length) {
+      setCurrentIndexImages(currentIndexImages => [currentIndexImages[0] + 1, currentIndexImages[1] + 1])
+    }
+  }
+
+  const currentImages = useMemo(() => {
+    if (product) {
+      return product.images.slice(...currentIndexImages)
+    }
+
+    return []
+  }, [product, currentIndexImages])
 
   useEffect(() => {
     const realProductId = getIdFromNameId(productId)
     dispatch(getProductById(realProductId))
       .then(unwrapResult)
       .then(res => {
+        res.data.images = res.data.images.map((image, index) => {
+          return {
+            id: index,
+            url: image
+          }
+        })
+        setCurrentImage(res.data.images[0])
         setProduct(res.data)
       })
   }, [dispatch, productId])
@@ -32,10 +65,10 @@ export default function ProductDetail() {
           <S.ProductBriefing>
             <S.ProductImages>
               <S.ProductImageActive>
-                <img src={product.image} alt={product.name} />
+                <img src={currentImage.url} alt={product.name} />
               </S.ProductImageActive>
               <S.ProductImageSlider>
-                <S.ProductIconButtonPrev>
+                <S.ProductIconButtonPrev onClick={choosePrev}>
                   <svg
                     enableBackground="new 0 0 13 20"
                     viewBox="0 0 13 20"
@@ -47,13 +80,17 @@ export default function ProductDetail() {
                   </svg>
                 </S.ProductIconButtonPrev>
 
-                {product.images.map((image, index) => (
-                  <S.ProductImage key={index}>
-                    <img src={image} alt="" />
+                {currentImages.map(image => (
+                  <S.ProductImage
+                    key={image.id}
+                    active={currentImage.id === image.id}
+                    onMouseEnter={() => chooseCurrent(image)}
+                  >
+                    <img src={image.url} alt="" />
                   </S.ProductImage>
                 ))}
 
-                <S.ProductIconButtonNext>
+                <S.ProductIconButtonNext onClick={chooseNext}>
                   <svg
                     enableBackground="new 0 0 13 21"
                     viewBox="0 0 13 21"
