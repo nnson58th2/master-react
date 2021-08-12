@@ -2,13 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
 import DOMPurify from 'dompurify'
 
 import ProductQuantityController from 'src/components/ProductQuantityController/ProductQuantityController'
 import ProductRating from 'src/components/ProductRating/ProductRating'
 
 import { formatK, formatMoney, getIdFromNameId, rateSale } from 'src/utils/helper'
-import { getProductById } from './productDetail.slice'
+import { addToCart, getProductById } from './productDetail.slice'
 
 import * as S from './productDetail.style'
 
@@ -43,6 +44,22 @@ export default function ProductDetail() {
 
     return []
   }, [product, currentIndexImages])
+
+  const handleAddToCart = () => {
+    const payload = {
+      product_id: product._id,
+      buy_count: quantity
+    }
+
+    dispatch(addToCart(payload))
+      .then(unwrapResult)
+      .then(res => {
+        toast.success(res.message, {
+          position: 'top-center',
+          autoClose: 4000
+        })
+      })
+  }
 
   const handleChangeQuantity = value => setQuantity(value)
 
@@ -140,7 +157,7 @@ export default function ProductDetail() {
                 <S.ProductAvailableQuantity>{product.quantity} sản phẩm có sẵn</S.ProductAvailableQuantity>
               </S.ProductBuyQuantity>
 
-              <S.ProductButtons>
+              <S.ProductButtons onClick={handleAddToCart}>
                 <svg
                   enableBackground="new 0 0 15 15"
                   viewBox="0 0 15 15"
