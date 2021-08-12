@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
+import DOMPurify from 'dompurify'
 
 import ProductQuantityController from 'src/components/ProductQuantityController/ProductQuantityController'
 import ProductRating from 'src/components/ProductRating/ProductRating'
@@ -170,7 +171,11 @@ export default function ProductDetail() {
 
           <S.ProductContent>
             <S.ProductContentHeading>MÔ TẢ SẢN PHẨM</S.ProductContentHeading>
-            <S.ProductContentDetail></S.ProductContentDetail>
+            <S.ProductContentDetail
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(product.description)
+              }}
+            />
           </S.ProductContent>
         </div>
       )}
