@@ -15,6 +15,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState()
   const [currentImage, setCurrentImage] = useState({})
   const [currentIndexImages, setCurrentIndexImages] = useState([0, 5])
+  const [quantity, setQuantity] = useState(1)
 
   const { productId } = useParams()
 
@@ -41,6 +42,8 @@ export default function ProductDetail() {
 
     return []
   }, [product, currentIndexImages])
+
+  const handleChangeQuantity = value => setQuantity(value)
 
   useEffect(() => {
     const realProductId = getIdFromNameId(productId)
@@ -127,7 +130,11 @@ export default function ProductDetail() {
               <S.ProductBuyQuantity>
                 <S.ProductBuyQuantityTitle>Số lượng</S.ProductBuyQuantityTitle>
                 <S.ProductBuyQuantityController>
-                  <ProductQuantityController />
+                  <ProductQuantityController
+                    value={quantity}
+                    maxValue={product.quantity}
+                    onChange={handleChangeQuantity}
+                  />
                 </S.ProductBuyQuantityController>
                 <S.ProductAvailableQuantity>{product.quantity} sản phẩm có sẵn</S.ProductAvailableQuantity>
               </S.ProductBuyQuantity>
