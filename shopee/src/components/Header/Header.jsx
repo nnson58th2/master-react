@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { path } from 'src/constants/path'
 import usePopover from 'src/hooks/usePopover'
 import useQuery from 'src/hooks/useQuery'
+import { formatMoney } from 'src/utils/helper'
 
 import Navbar from '../Navbar/Navbar'
 import Popover from '../Popover/Popover'
@@ -12,6 +14,9 @@ import * as S from './header.style'
 export default function Header() {
   const { activePopover, showPopover, hidePopover } = usePopover()
   const [searchValue, setSearchValue] = useState('')
+
+  const purChases = useSelector(state => state.cart.purchases)
+
   const history = useHistory()
   const query = useQuery()
 
@@ -76,22 +81,22 @@ export default function Header() {
                   <circle cx="10.7" cy={23} r="2.2" stroke="none" />
                   <circle cx="19.7" cy={23} r="2.2" stroke="none" />
                 </svg>
-                <S.CartNumberBadge>6</S.CartNumberBadge>
+                {purChases.length > 0 && <S.CartNumberBadge>{purChases.length}</S.CartNumberBadge>}
               </S.CartIcon>
 
               <Popover active={activePopover}>
                 <S.PopoverContent>
                   <S.PopoverTitle>Sản phẩm mới thêm</S.PopoverTitle>
-                  <S.MiniProductCart>
-                    <S.MiniProductCartImg src="https://cf.shopee.vn/file/d53956808dd5d10343649f015f68ef94_tn" />
-                    <S.MiniProductCartTitle>
-                      Puller VCK | Dụng Cụ Tháo Keycap - Tháo Switch | 2in1 - Tua Vít - KeyPuller - Switch Puller | VCK
-                    </S.MiniProductCartTitle>
-                    <S.MiniProductCartPrice>đ70.000</S.MiniProductCartPrice>
-                  </S.MiniProductCart>
+                  {purChases.slice(0, 5).map(purChase => (
+                    <S.MiniProductCart key={purChase.id}>
+                      <S.MiniProductCartImg src={purChase.product.image} />
+                      <S.MiniProductCartTitle>{purChase.product.name}</S.MiniProductCartTitle>
+                      <S.MiniProductCartPrice>đ{formatMoney(purChase.product.price)}</S.MiniProductCartPrice>
+                    </S.MiniProductCart>
+                  ))}
                   <S.PopoverFooter>
                     <S.MoreProduct>
-                      <span>1 sản phẩm vào giỏ</span>
+                      {purChases.length > 5 && <span>{purChases.length - 5} sản phẩm vào giỏ</span>}
                     </S.MoreProduct>
                     <S.ButtonShowCart to="">Xem giỏ hàng</S.ButtonShowCart>
                   </S.PopoverFooter>

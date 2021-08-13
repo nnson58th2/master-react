@@ -10,6 +10,7 @@ import ProductRating from 'src/components/ProductRating/ProductRating'
 
 import { formatK, formatMoney, getIdFromNameId, rateSale } from 'src/utils/helper'
 import { addToCart, getProductById } from './productDetail.slice'
+import { getCartPurchases } from '../Cart/cart.slice'
 
 import * as S from './productDetail.style'
 
@@ -45,20 +46,20 @@ export default function ProductDetail() {
     return []
   }, [product, currentIndexImages])
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const payload = {
       product_id: product._id,
       buy_count: quantity
     }
 
-    dispatch(addToCart(payload))
-      .then(unwrapResult)
-      .then(res => {
-        toast.success(res.message, {
-          position: 'top-center',
-          autoClose: 2500
-        })
-      })
+    const response = await dispatch(addToCart(payload)).then(unwrapResult)
+
+    await dispatch(getCartPurchases).then(unwrapResult)
+
+    toast.success(response.message, {
+      position: 'top-center',
+      autoClose: 2500
+    })
   }
 
   const handleChangeQuantity = value => setQuantity(value)
