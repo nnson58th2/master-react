@@ -12,7 +12,7 @@ const handleAuthFulfilled = (state, action) => {
 
   state.profile = user
   localStorage.setItem(LocalStorage.user, JSON.stringify(state.profile))
-  localStorage.setItem(LocalStorage.accessToken, JSON.stringify(access_token))
+  localStorage.setItem(LocalStorage.accessToken, access_token)
 }
 
 const auth = createSlice({
