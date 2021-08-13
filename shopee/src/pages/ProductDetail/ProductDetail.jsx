@@ -56,7 +56,7 @@ export default function ProductDetail() {
       .then(res => {
         toast.success(res.message, {
           position: 'top-center',
-          autoClose: 4000
+          autoClose: 2500
         })
       })
   }
