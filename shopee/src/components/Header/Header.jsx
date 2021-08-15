@@ -98,7 +98,7 @@ export default function Header() {
                     <S.MoreProduct>
                       {purChases.length > 5 && <span>{purChases.length - 5} sản phẩm vào giỏ</span>}
                     </S.MoreProduct>
-                    <S.ButtonShowCart to="">Xem giỏ hàng</S.ButtonShowCart>
+                    <S.ButtonShowCart to={path.cart}>Xem giỏ hàng</S.ButtonShowCart>
                   </S.PopoverFooter>
                 </S.PopoverContent>
               </Popover>

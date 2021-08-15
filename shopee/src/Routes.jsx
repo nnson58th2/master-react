@@ -3,8 +3,10 @@ import { Switch, Route } from 'react-router-dom'
 import { path } from './constants/path'
 
 import MainLayout from './layouts/MainLayout/MainLayout'
+import CartLayout from './layouts/CartLayout/CartLayout'
 import RegisterLayout from './layouts/RegisterLayout/RegisterLayout'
 
+import Cart from './pages/Cart/Cart'
 import Home from './pages/Home/Home'
 import Login from './pages/Auth/Login/Login'
 import NotFound from './pages/NotFound/NotFound'
@@ -51,6 +53,14 @@ export default function Routes() {
           <MainLayout>
             <User />
           </MainLayout>
+        </AuthenticatedGuard>
+      </Route>
+
+      <Route path={path.cart}>
+        <AuthenticatedGuard>
+          <CartLayout>
+            <Cart />
+          </CartLayout>
         </AuthenticatedGuard>
       </Route>
 

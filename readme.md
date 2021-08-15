@@ -60,4 +60,20 @@ yarn add @material-ui/core @material-ui/lab @reduxjs/toolkit react-router-dom re
 
 ### Clone Shopee trang chi tiết sản phẩm
 
+1. Tạo UI trang ProductDetail
+2. Tạo UI ProductQuantityController
+3. Code chức năng slider
+4. Code logic cho ProductQuantityController
+5. render HTML (rich text - WYSIWYG) an toàn trong React
+6. Thêm sản phẩm vào giỏ hàng
+7. Xử lý lỗi khi token hết hạn
+
 ### Clone Shopee trang giỏ hàng
+
+1. Get sản phẩm trên popup giỏ hàng
+2. Tạo HeaderCart và CartLayout
+3. Tạo Checkbox component
+4. Tạo trang Cart
+5. Code logic
+
+### Clone Shopee trang thông tin user
