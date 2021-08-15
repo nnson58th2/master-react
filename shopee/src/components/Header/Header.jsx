@@ -88,7 +88,7 @@ export default function Header() {
                 <S.PopoverContent>
                   <S.PopoverTitle>Sản phẩm mới thêm</S.PopoverTitle>
                   {purChases.slice(0, 5).map(purChase => (
-                    <S.MiniProductCart key={purChase.id}>
+                    <S.MiniProductCart key={purChase._id}>
                       <S.MiniProductCartImg src={purChase.product.image} />
                       <S.MiniProductCartTitle>{purChase.product.name}</S.MiniProductCartTitle>
                       <S.MiniProductCartPrice>đ{formatMoney(purChase.product.price)}</S.MiniProductCartPrice>
