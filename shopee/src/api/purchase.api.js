@@ -13,6 +13,9 @@ const purchaseApi = {
         status: purchaseStatus.inCart
       }
     })
+  },
+  updatePurchase(data) {
+    return http.put(`${URL}/update-purchase`, data)
   }
 }
 

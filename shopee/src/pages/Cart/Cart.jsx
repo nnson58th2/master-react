@@ -1,14 +1,95 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { createNextState, unwrapResult } from '@reduxjs/toolkit'
+import { useDispatch, useSelector } from 'react-redux'
 import Checkbox from 'src/components/Checkbox/Checkbox'
 import ProductQuantityController from 'src/components/ProductQuantityController/ProductQuantityController'
 import { path } from 'src/constants/path'
 import { formatMoney } from 'src/utils/helper'
 
+import { getCartPurchases, updatePurchase } from './cart.slice'
+
 import * as S from './cart.style'
 
 export default function Cart() {
-  const purChases = useSelector(state => state.cart.purchases)
+  const purchases = useSelector(state => state.cart.purchases)
+
+  const dispatch = useDispatch()
+
+  const [localPurchases, setLocalPurchases] = useState(() =>
+    createNextState(purchases, draft => {
+      draft.forEach(purchase => {
+        purchase.disabled = false
+        purchase.checked = false
+      })
+    })
+  )
+
+  useEffect(() => {
+    setLocalPurchases(
+      createNextState(purchases, draft => {
+        draft.forEach(purchase => (purchase.disabled = false))
+      })
+    )
+  }, [purchases])
+
+  const handleBlurQuantity = indexPurchase => async value => {
+    const purchase = localPurchases[indexPurchase]
+
+    setLocalPurchases(localPurchases =>
+      createNextState(localPurchases, draft => {
+        draft[indexPurchase].disabled = true
+      })
+    )
+
+    await dispatch(
+      updatePurchase({
+        product_id: purchase.product._id,
+        buy_count: value
+      })
+    ).then(unwrapResult)
+
+    await dispatch(getCartPurchases()).then(unwrapResult)
+
+    setLocalPurchases(localPurchases =>
+      createNextState(localPurchases, draft => {
+        draft[indexPurchase].disabled = false
+      })
+    )
+  }
+
+  const handleInputQuantity = indexPurchase => value => {
+    const newLocalPurchases = createNextState(localPurchases, draft => {
+      draft[indexPurchase].buy_count = value
+    })
+
+    setLocalPurchases(newLocalPurchases)
+  }
+
+  const handleIncreaseAndDecrease = indexPurchase => async value => {
+    const purchase = localPurchases[indexPurchase]
+
+    setLocalPurchases(localPurchases =>
+      createNextState(localPurchases, draft => {
+        draft[indexPurchase].disabled = true
+        draft[indexPurchase].buy_count = value
+      })
+    )
+
+    await dispatch(
+      updatePurchase({
+        product_id: purchase.product._id,
+        buy_count: value
+      })
+    ).then(unwrapResult)
+
+    await dispatch(getCartPurchases()).then(unwrapResult)
+
+    setLocalPurchases(localPurchases =>
+      createNextState(localPurchases, draft => {
+        draft[indexPurchase].disabled = false
+      })
+    )
+  }
 
   return (
     <div className="container">
@@ -26,7 +107,7 @@ export default function Cart() {
         </S.ProductHeader>
 
         <S.ProductSection>
-          {purChases.map(purChase => (
+          {localPurchases.map((purChase, index) => (
             <S.CartItem key={purChase._id}>
               <S.CartItemCheckbox>
                 <Checkbox />
@@ -47,7 +128,15 @@ export default function Cart() {
               </S.CartItemUnitPrice>
 
               <S.CartItemQuantity>
-                <ProductQuantityController maxValue={purChase.product.quantity} value={purChase.buy_count} />
+                <ProductQuantityController
+                  maxValue={purChase.product.quantity}
+                  value={purChase.buy_count}
+                  disabled={purChase.disabled}
+                  onBlur={handleBlurQuantity(index)}
+                  onInput={handleInputQuantity(index)}
+                  onIncrease={handleIncreaseAndDecrease(index)}
+                  onDecrease={handleIncreaseAndDecrease(index)}
+                />
               </S.CartItemQuantity>
 
               <S.CartItemTotalPrice>
@@ -66,7 +155,7 @@ export default function Cart() {
         <S.CartFooterCheckbox>
           <Checkbox />
         </S.CartFooterCheckbox>
-        <S.CartFooterButton>Chọn tất cả ({purChases.length})</S.CartFooterButton>
+        <S.CartFooterButton>Chọn tất cả ({localPurchases.length})</S.CartFooterButton>
         <S.CartFooterButton>Xóa</S.CartFooterButton>
         <S.CartFooterSpaceBetween />
         <S.CartFooterPrice>

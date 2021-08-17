@@ -3,7 +3,16 @@ import PropTypes from 'prop-types'
 
 import * as S from './productQuantityController.style'
 
-export default function ProductQuantityController({ value, maxValue, onChange }) {
+export default function ProductQuantityController({
+  value,
+  maxValue,
+  disabled,
+  onChange,
+  onBlur,
+  onIncrease,
+  onDecrease,
+  onInput
+}) {
   const handleChangeProductQuantity = value => {
     let _value = Number(value)
 
@@ -16,6 +25,7 @@ export default function ProductQuantityController({ value, maxValue, onChange })
     }
 
     onChange && onChange(_value)
+    onInput && onInput(_value)
   }
 
   const increase = () => {
@@ -26,6 +36,7 @@ export default function ProductQuantityController({ value, maxValue, onChange })
     }
 
     onChange && onChange(_value)
+    onIncrease && onIncrease(_value)
   }
 
   const decrease = () => {
@@ -36,19 +47,39 @@ export default function ProductQuantityController({ value, maxValue, onChange })
     }
 
     onChange && onChange(_value)
+    onDecrease && onDecrease(_value)
+  }
+
+  const handleBlur = value => {
+    onBlur && onBlur(Number(value))
   }
 
   return (
     <S.ProductQuantityController>
-      <S.ProductQuantityButton onClick={decrease}>
+      <S.ProductQuantityButton
+        onClick={() => {
+          !disabled && decrease()
+        }}
+        disabled={disabled}
+      >
         <svg enableBackground="new 0 0 10 10" viewBox="0 0 10 10" x={0} y={0} className="shopee-svg-icon ">
           <polygon points="4.5 4.5 3.5 4.5 0 4.5 0 5.5 3.5 5.5 4.5 5.5 10 5.5 10 4.5" />
         </svg>
       </S.ProductQuantityButton>
 
-      <S.ProductQuantityInput value={value} onChange={handleChangeProductQuantity} />
+      <S.ProductQuantityInput
+        disabled={disabled}
+        value={value}
+        onBlur={handleBlur}
+        onChange={handleChangeProductQuantity}
+      />
 
-      <S.ProductQuantityButton onClick={increase}>
+      <S.ProductQuantityButton
+        onClick={() => {
+          !disabled && increase()
+        }}
+        disabled={disabled}
+      >
         <svg
           enableBackground="new 0 0 10 10"
           viewBox="0 0 10 10"
