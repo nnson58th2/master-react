@@ -5,7 +5,7 @@ import * as S from './checkbox.style'
 
 export default function Checkbox({ checked, onChange, ...props }) {
   const handleChangeCheckbox = event => {
-    const _value = event.target.value
+    const _value = event.target.checked
 
     onChange && onChange(_value)
   }
