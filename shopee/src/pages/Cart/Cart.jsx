@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { createNextState, unwrapResult } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 import keyBy from 'lodash/keyBy'
 
 import Checkbox from 'src/components/Checkbox/Checkbox'
@@ -8,7 +9,7 @@ import ProductQuantityController from 'src/components/ProductQuantityController/
 import { path } from 'src/constants/path'
 import { formatMoney } from 'src/utils/helper'
 
-import { getCartPurchases, updatePurchase } from './cart.slice'
+import { buyPurChases, deletePurchases, getCartPurchases, updatePurchase } from './cart.slice'
 
 import * as S from './cart.style'
 
@@ -76,6 +77,25 @@ export default function Cart() {
     )
   }
 
+  const handleBuyPurchase = async () => {
+    if (!checkedPurchases.length) {
+      return
+    }
+
+    const payload = checkedPurchases.map(purchase => ({
+      product_id: purchase.product._id,
+      buy_count: purchase.buy_count
+    }))
+
+    await dispatch(buyPurChases(payload)).then(unwrapResult)
+    await dispatch(getCartPurchases()).then(unwrapResult)
+
+    toast.success('Đặt đơn hàng thành công', {
+      position: 'top-center',
+      autoClose: 2500
+    })
+  }
+
   const handleCheckBox = indexPurchase => value => {
     setLocalPurchases(localPurchases =>
       createNextState(localPurchases, draft => {
@@ -126,6 +146,25 @@ export default function Cart() {
         draft[indexPurchase].disabled = false
       })
     )
+  }
+
+  const handleRemovePurchases = (indexPurchase, isRemoveMany) => async () => {
+    // indexPurchase = -1 is remove many purchase
+    let purchaseIds = []
+
+    if (isRemoveMany) {
+      purchaseIds = checkedPurchases.map(purchase => purchase._id)
+    } else {
+      purchaseIds = [localPurchases[indexPurchase]._id]
+    }
+
+    await dispatch(deletePurchases(purchaseIds)).then(unwrapResult)
+    await dispatch(getCartPurchases()).then(unwrapResult)
+
+    toast.success('Xóa đơn hàng thành công', {
+      position: 'top-center',
+      autoClose: 2000
+    })
   }
 
   return (
@@ -181,7 +220,7 @@ export default function Cart() {
               </S.CartItemTotalPrice>
 
               <S.CartItemAction>
-                <S.CartItemActionButton>Xóa</S.CartItemActionButton>
+                <S.CartItemActionButton onClick={handleRemovePurchases(index, false)}>Xóa</S.CartItemActionButton>
               </S.CartItemAction>
             </S.CartItem>
           ))}
@@ -193,7 +232,7 @@ export default function Cart() {
           <Checkbox checked={isCheckedAllPurchases} onChange={handleCheckBoxAll} />
         </S.CartFooterCheckbox>
         <S.CartFooterButton onClick={handleCheckBoxAll}>Chọn tất cả ({localPurchases.length})</S.CartFooterButton>
-        <S.CartFooterButton>Xóa</S.CartFooterButton>
+        <S.CartFooterButton onClick={handleRemovePurchases(-1, true)}>Xóa</S.CartFooterButton>
         <S.CartFooterSpaceBetween />
         <S.CartFooterPrice>
           <S.CartFooterPriceTop>
@@ -206,7 +245,7 @@ export default function Cart() {
           </S.CartFooterPriceBot>
         </S.CartFooterPrice>
 
-        <S.CartFooterCheckout>Mua hàng</S.CartFooterCheckout>
+        <S.CartFooterCheckout onClick={handleBuyPurchase}>Mua hàng</S.CartFooterCheckout>
       </S.CartFooter>
     </div>
   )

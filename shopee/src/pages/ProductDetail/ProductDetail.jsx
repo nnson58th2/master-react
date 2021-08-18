@@ -54,11 +54,11 @@ export default function ProductDetail() {
 
     const response = await dispatch(addToCart(payload)).then(unwrapResult)
 
-    await dispatch(getCartPurchases).then(unwrapResult)
+    await dispatch(getCartPurchases()).then(unwrapResult)
 
     toast.success(response.message, {
       position: 'top-center',
-      autoClose: 2500
+      autoClose: 2000
     })
   }
 

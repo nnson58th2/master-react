@@ -7,6 +7,9 @@ const purchaseApi = {
   addToCart(data) {
     return http.post(`${URL}/add-to-cart`, data)
   },
+  buyPurChases(data) {
+    return http.post(`${URL}/buy-products`, data)
+  },
   getCartPurchases() {
     return http.get(URL, {
       params: {
@@ -16,6 +19,9 @@ const purchaseApi = {
   },
   updatePurchase(data) {
     return http.put(`${URL}/update-purchase`, data)
+  },
+  deletePurchases(ids) {
+    return http.delete(URL, ids)
   }
 }
 
