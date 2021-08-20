@@ -50,4 +50,19 @@ export const ButtonLink = styled(Link)`
   &:hover {
     background-color: #f05d40;
   }
+
+  ${({ light }) => {
+    if (light) {
+      return `
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, .09);
+        box-shadow: 0 1px 1px 0 rbg(0 0 0 / 3%);
+        color: #555;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, .03)
+        }
+      `
+    }
+  }}
 `
