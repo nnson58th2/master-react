@@ -77,3 +77,7 @@ yarn add @material-ui/core @material-ui/lab @reduxjs/toolkit react-router-dom re
 5. Code logic
 
 ### Clone Shopee trang thông tin user
+
+1. Code UI Sidebar User
+2. Nested Route cho User Page, trick hay cho khi báo path
+3. Code UI trang Profile
