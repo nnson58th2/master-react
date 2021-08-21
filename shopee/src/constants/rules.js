@@ -1,6 +1,24 @@
 import { isEmail } from 'src/utils/helper'
 
 export const rules = {
+  name: {
+    maxLength: {
+      value: 160,
+      message: 'Tên có độ dài tối đa là 160 kí tự'
+    }
+  },
+  phone: {
+    maxLength: {
+      value: 10,
+      message: 'Số điện thoại có độ dài tối đa là 10 kí tự'
+    }
+  },
+  address: {
+    maxLength: {
+      name: 160,
+      message: 'Địa chỉ có độ dài tối đa là 160 kí tự'
+    }
+  },
   email: {
     require: {
       value: true,
