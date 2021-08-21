@@ -1,44 +1,118 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { unwrapResult } from '@reduxjs/toolkit'
+import qs from 'query-string'
+
+import useQuery from 'src/hooks/useQuery'
+import { path } from 'src/constants/path'
+import { purchaseStatus } from 'src/constants/status'
+import { formatMoney, generateNameId } from 'src/utils/helper'
+
+import { getPurchases } from '../user.slice'
 
 import * as S from './purchase.style'
 
 export default function Purchase() {
+  const [purchases, setPurchases] = useState([])
+
+  const dispatch = useDispatch()
+  const query = useQuery()
+  const status = useMemo(() => query.status || purchaseStatus.all, [query])
+
+  useEffect(() => {
+    dispatch(getPurchases(status))
+      .then(unwrapResult)
+      .then(res => {
+        setPurchases(res.data)
+      })
+  }, [dispatch, status])
+
+  const handleActive = value => () => Number(value) === Number(status)
+
   return (
     <div>
       <S.PurchaseTabs>
-        <S.PurchaseTabItem to="">Tất cả</S.PurchaseTabItem>
-        <S.PurchaseTabItem to="">Chờ xác nhận</S.PurchaseTabItem>
-        <S.PurchaseTabItem to="">Chờ lấy hàng</S.PurchaseTabItem>
-        <S.PurchaseTabItem to="">Đang giao</S.PurchaseTabItem>
-        <S.PurchaseTabItem to="">Đã hủy</S.PurchaseTabItem>
+        <S.PurchaseTabItem to={path.purchase} isActive={handleActive(purchaseStatus.all)}>
+          Tất cả
+        </S.PurchaseTabItem>
+
+        <S.PurchaseTabItem
+          to={{
+            pathname: path.purchase,
+            search: `?${qs.stringify({ status: purchaseStatus.waitForConfirmation })}`
+          }}
+          isActive={handleActive(purchaseStatus.waitForConfirmation)}
+        >
+          Chờ xác nhận
+        </S.PurchaseTabItem>
+
+        <S.PurchaseTabItem
+          to={{
+            pathname: path.purchase,
+            search: `?${qs.stringify({ status: purchaseStatus.waitForGetting })}`
+          }}
+          isActive={handleActive(purchaseStatus.waitForGetting)}
+        >
+          Chờ lấy hàng
+        </S.PurchaseTabItem>
+
+        <S.PurchaseTabItem
+          to={{
+            pathname: path.purchase,
+            search: `?${qs.stringify({ status: purchaseStatus.inProgress })}`
+          }}
+          isActive={handleActive(purchaseStatus.inProgress)}
+        >
+          Đang giao
+        </S.PurchaseTabItem>
+
+        <S.PurchaseTabItem
+          to={{
+            pathname: path.purchase,
+            search: `?${qs.stringify({ status: purchaseStatus.delivered })}`
+          }}
+          isActive={handleActive(purchaseStatus.delivered)}
+        >
+          Đã giao
+        </S.PurchaseTabItem>
+
+        <S.PurchaseTabItem
+          to={{
+            pathname: path.purchase,
+            search: `?${qs.stringify({ status: purchaseStatus.cancelled })}`
+          }}
+          isActive={handleActive(purchaseStatus.cancelled)}
+        >
+          Đã hủy
+        </S.PurchaseTabItem>
       </S.PurchaseTabs>
 
       <S.PurchaseList>
-        <S.OrderCard>
-          <S.OrderCardContent>
-            <S.OrderCardDetail>
-              <img src="https://cf.shopee.vn/file/dac4b2e9ca0c82bacac25a275f17a758_tn" alt="Image purchase" />
+        {purchases.map(purchase => (
+          <S.OrderCard key={purchase._id}>
+            <S.OrderCardContent>
+              <S.OrderCardDetail>
+                <img src={purchase.product.image} alt={purchase.product.name} />
 
-              <S.OrderContent>
-                <S.OrderName>
-                  Cáp Lightning Aukey CB-BAL1 MFi Apple Nhựa Tổng Hợp Cao Cấp 1,2m - Hàng Chính Hãng
-                </S.OrderName>
-                <S.OrderQuantity>x 1</S.OrderQuantity>
-              </S.OrderContent>
-            </S.OrderCardDetail>
-            <S.OrderCardPrice>đ10000</S.OrderCardPrice>
-          </S.OrderCardContent>
+                <S.OrderContent>
+                  <S.OrderName>{purchase.product.name}</S.OrderName>
+                  <S.OrderQuantity>x {purchase.buy_count}</S.OrderQuantity>
+                </S.OrderContent>
+              </S.OrderCardDetail>
+              <S.OrderCardPrice>đ{formatMoney(purchase.product.price)}</S.OrderCardPrice>
+            </S.OrderCardContent>
 
-          <S.OrderCardButtonsContainer>
-            <S.PurchaseButton light={1} to="">
-              Xem sản phẩm
-            </S.PurchaseButton>
-            <S.TotalPrice>
-              <S.TotalPriceLabel>Tổng giá tiền:</S.TotalPriceLabel>
-              <S.TotalPricePrice>đ20000</S.TotalPricePrice>
-            </S.TotalPrice>
-          </S.OrderCardButtonsContainer>
-        </S.OrderCard>
+            <S.OrderCardButtonsContainer>
+              <S.PurchaseButton light={1} to={path.product + `/${generateNameId(purchase.product)}`}>
+                Xem sản phẩm
+              </S.PurchaseButton>
+              <S.TotalPrice>
+                <S.TotalPriceLabel>Tổng giá tiền:</S.TotalPriceLabel>
+                <S.TotalPricePrice>đ{formatMoney(purchase.product.price * purchase.buy_count)}</S.TotalPricePrice>
+              </S.TotalPrice>
+            </S.OrderCardButtonsContainer>
+          </S.OrderCard>
+        ))}
       </S.PurchaseList>
     </div>
   )
