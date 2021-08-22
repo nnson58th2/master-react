@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 import { path } from 'src/constants/path'
-import Password from './Password/Password'
-import Profile from './Profile/Profile'
-import Purchase from './Purchase/Purchase'
+import Loading from 'src/components/Loading/Loading'
 
 import * as S from './user.style'
+
+const Password = lazy(() => import('./Password/Password'))
+const Profile = lazy(() => import('./Profile/Profile'))
+const Purchase = lazy(() => import('./Purchase/Purchase'))
 
 export default function User() {
   return (
@@ -69,15 +71,21 @@ export default function User() {
             </Route>
 
             <Route path={path.profile}>
-              <Profile />
+              <Suspense fallback={<Loading />}>
+                <Profile />
+              </Suspense>
             </Route>
 
             <Route path={path.password}>
-              <Password />
+              <Suspense fallback={<Loading />}>
+                <Password />
+              </Suspense>
             </Route>
 
             <Route path={path.purchase}>
-              <Purchase />
+              <Suspense fallback={<Loading />}>
+                <Purchase />
+              </Suspense>
             </Route>
           </Switch>
         </S.Main>
