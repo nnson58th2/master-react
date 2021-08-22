@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { path } from './constants/path'
 
-import Loading from './components/Loading/Loading'
+import Fallback from './components/Fallback/Fallback'
 
 const AuthenticatedGuard = lazy(() => import('./guards/AuthenticatedGuard'))
 const UnauthenticatedGuard = lazy(() => import('./guards/UnauthenticatedGuard'))
@@ -23,7 +23,7 @@ export default function Routes() {
   return (
     <Switch>
       <Route path={path.home} exact>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Fallback />}>
           <MainLayout>
             <Home />
           </MainLayout>
@@ -31,7 +31,7 @@ export default function Routes() {
       </Route>
 
       <Route path={path.productDetail} exact>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Fallback />}>
           <MainLayout>
             <ProductDetail />
           </MainLayout>
@@ -39,7 +39,7 @@ export default function Routes() {
       </Route>
 
       <Route path={path.login}>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Fallback />}>
           <UnauthenticatedGuard>
             <RegisterLayout title="Đăng nhập">
               <Login />
@@ -49,7 +49,7 @@ export default function Routes() {
       </Route>
 
       <Route path={path.register}>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Fallback />}>
           <UnauthenticatedGuard>
             <RegisterLayout title="Đăng ký">
               <Register />
@@ -59,7 +59,7 @@ export default function Routes() {
       </Route>
 
       <Route path={path.user}>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Fallback />}>
           <AuthenticatedGuard>
             <MainLayout>
               <User />
@@ -69,7 +69,7 @@ export default function Routes() {
       </Route>
 
       <Route path={path.cart}>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Fallback />}>
           <AuthenticatedGuard>
             <CartLayout>
               <Cart />
@@ -79,7 +79,7 @@ export default function Routes() {
       </Route>
 
       <Route path={path.notFound}>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Fallback />}>
           <NotFound />
         </Suspense>
       </Route>
